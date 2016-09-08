@@ -5,6 +5,7 @@ from urllib import request as req
 from .errors import api_error
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 """
 Get CSV file from Yahoo
@@ -54,3 +55,29 @@ def get_pd_df(ticker=None, endDate='today', startDate='-30'):
     raise api_error('get_pd_df', 'url {} can\'t be opened'.format(url))
 
   return retVal
+
+"""
+Plot
+
+Input:
+  df      : pandas dataFrame
+  title   : plot title
+  techInd : dictionary of technical indicator to be plotted
+
+  example of techInd:
+  {"SMA" : [10, 20, 50],
+   "BB"  : [.., .., ..]}
+"""
+def plot_chart(df, title=None, techInd=None):
+
+  df.plot()
+  plt.title(title)
+
+  # Put technical indicator on the chart
+  if techInd != None:
+    if 'SMA' in techInd:
+      for sma in techInd['SMA']:
+        ma = df.rolling(window=sma).mean()
+        ma.plot()
+
+  plt.show()

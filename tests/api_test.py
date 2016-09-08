@@ -18,14 +18,23 @@ class api_test():
 
   ###################################################
   def ticker_default_period(self, ticker):
-    print("...Testing ticker {} with default period".format(ticker.upper()))
-    csv = api.get_pd_df(ticker)
-    print(csv)
+    print("...Testing get_pd_df for ticker {} with default period".format(ticker.upper()))
+    df = api.get_pd_df(ticker)
+    print(df)
 
+  ###################################################
+  def plot_ticker(self, ticker):
+    print("...Testing plot ticker {} adjusted close for 1 year".format(ticker.upper()))
+    df = api.get_pd_df(ticker, 'today', '-365')
+    techInd = {"SMA": [10,50]}
+    api.plot_chart(df['Adj Close'].sort_index(), '1 Year SPY', techInd=techInd)
+
+  ###################################################
   def start_test(self):
     print("Starting api_test")
     self.empty_ticker()
     self.ticker_default_period('spy')
+    self.plot_ticker('spy')
 
   def summary(self):
     print("Summary:")
